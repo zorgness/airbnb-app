@@ -16,6 +16,14 @@
     </head>
     <body>
         {% include 'navbar.html.twig' %}
+
+         {% for message in app.flashes("success")%}
+          <div class="alert alert-dismissible alert-info">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            {{ message }}
+          </div>
+        {% endfor %}
+
         {% block body %}{% endblock %}
     </body>
 </html>
