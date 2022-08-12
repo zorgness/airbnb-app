@@ -6,4 +6,23 @@
 
 <h1>Flats list</h1>
 
+
+<div class="flats-container">
+
+      {% for flat in flats %}
+          <div class="card" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">{{ flat.description }}</p>
+              <p class="card-text">{{ flat.address }}</p>
+              <p class="card-text">owner: {{ flat.owner.username }}</p>
+              <p class="card-text">price/day: {{ flat.pricePerDay }} $</p>
+
+            </div>
+          </div>
+      {% endfor %}
+
+
+</div>
+
 {% endblock %}
