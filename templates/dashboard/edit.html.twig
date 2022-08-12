@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboards Modification Flat{% endblock %}
+
+{% block body %}
+<div class="form-container m-4">
+
+    {{form_start(form)}}
+      <div>{{form_row(form.address, {'attr':{'class': 'tex-danger'}})}}</div>
+      <div>{{form_row(form.pricePerDay)}}</div>
+      <div>{{form_row(form.description)}}</div>
+
+      {{form_widget(form)}}
+      <input type="submit" class="btn btn-primary" value="Submit"/>
+    {{form_end(form)}}
+
+</div>
+
+
+
+{% endblock %}

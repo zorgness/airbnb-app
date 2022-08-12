@@ -37,6 +37,8 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Flat::class)]
     private Collection $flats;
 
+
+
     public function __construct()
     {
         $this->flats = new ArrayCollection();
