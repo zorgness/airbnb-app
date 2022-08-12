@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FlatController extends AbstractController
 {
-    #[Route('/', name: 'app_flat')]
+    #[Route('/', name: 'flats')]
     public function index(FlatRepository $repository): Response
     {
         $flats = $repository->findAll();
