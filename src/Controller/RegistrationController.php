@@ -54,6 +54,7 @@ class RegistrationController extends AbstractController
             'error' => $error
 
         ]);
+
     }
 
     #[Route('/logout', name: 'logout', methods: ['GET'])]
