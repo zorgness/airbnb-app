@@ -5,12 +5,12 @@
 {% block body %}
 <div class="d-flex justify-content-between m-3 align-items-center">
     <h1 class="">Dashboard</h1>
-    <a href="{{ path('dashboard_flat_new') }}" class="btn btn-primary m-3">Add a flat</a>
+    <a href="{{ path('dashboard_flat_new') }}" class="btn btn-outline-success m-3">Add a flat</a>
 </div>
 
 
 <div class="user-container m-3 p-2 rounded bg-info">
-  <h3>{{ app.user.username|title}}</h3>
+  <h3 class="text-white">{{ app.user.username|title}}</h3>
 </div>
 
 
@@ -29,13 +29,18 @@
 
                <div class="btn-group d-flex justify-content-center">
 
-                <a href="{{ path('dashboard_flat_edit', {'id':flat.id}) }}" class="btn btn-outline-warning">Modify</a>
+                <div class=" m-3">
+                   <a href="{{ path('dashboard_flat_edit', {'id':flat.id}) }}" class="btn btn-outline-warning">Modify</a>
+                </div>
 
-                <form method="POST" style="display: inline-block"  action="{{ path('flat_destroy', {'id':flat.id}) }}" onsubmit="return confirm('Are you sure you want to delete this flat?')">
+                <div class=" m-3">
+                  <form method="POST" style="display: inline-block"  action="{{ path('flat_destroy', {'id':flat.id}) }}" onsubmit="return confirm('Are you sure you want to delete this flat?')">
                   <input type="hidden" name="_method" value="SUP">
                   <input type="hidden" name="_token" value="{{csrf_token('SUP' ~ flat.id)}}">
                   <input type="submit" value="Delete" class="btn btn-outline-danger">
                 </form>
+                </div>
+
               </div>
 
             </div>
