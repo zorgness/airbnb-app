@@ -29,6 +29,8 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    private ?string $verificationPassword = null;
+
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
@@ -97,6 +99,18 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getVerificationPassword(): string
+    {
+        return $this->verificationPassword;
+    }
+
+    public function setVerificationPassword(string $verificationPassword): self
+    {
+        $this->verificationPassword = $verificationPassword;
 
         return $this;
     }
