@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Flat;
+use App\Form\FlatType;
 use App\Repository\FlatRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DashboardController extends AbstractController
 {
@@ -18,5 +22,47 @@ class DashboardController extends AbstractController
             'controller_name' => 'DashboardController',
             'flats' => $flats
         ]);
+    }
+
+    #[Route('/dashboard/flat/new', name: 'dashboard_flat_new')]
+    #[Route('/dashboard/flat/{id}', name: 'dashboard_flat_edit') ]
+    public function new_and_edit(Flat $flat = null, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        if(!$flat) {
+          $flat = new Flat();
+        }
+
+        $user = $this->getUser();
+        $form = $this->createForm(FlatType::class,$flat);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+          $flat->setOwner($user);
+          $entityManager->persist($flat);
+          $entityManager->flush();
+          $this->addFlash("success", 'flat have been modified');
+          return $this->redirectToRoute('dashboard');
+        }
+
+
+        return $this->render('dashboard/edit.html.twig', [
+            'controller_name' => 'DashboardController',
+            'flat' => $flat,
+            'form' => $form->createView(),
+            'new' => $flat->getId() !== null
+        ]);
+    }
+
+    #[Route('/dashboard/flat/delete/{id}', name: 'flat_destroy')]
+    public function destroy(Flat $flat, Request $request, EntityManagerInterface $entityManager): Response
+    {
+      if($this->isCsrfTokenValid("SUP". $flat->getId(), $request->get('_token')))
+      {
+        $entityManager->remove($flat);
+        $entityManager->flush();
+        $this->addFlash("success", 'flat have been deleted');
+        return $this->redirectToRoute('dashboard');
+      }
     }
 }

@@ -1,6 +1,6 @@
 <div class="navbar navbar-expand-sm navbar-dark navbar-lewagon bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="">
+    <a class="navbar-brand" href="{{ path('flats')}}">
       <img src="https://www.kernix.com/doc/symfony.svg" />
     </a>
     <h1 class="navbar-brand">Airnb Clone</h1>
@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="">Home</a>
+            <a class="nav-link" href="{{ path('flats')}}">Home</a>
           </li>
 
           {% if app.user %}
