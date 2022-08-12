@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AccountRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,6 +31,14 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $username = null;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Flat::class)]
+    private Collection $flats;
+
+    public function __construct()
+    {
+        $this->flats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -108,6 +118,36 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Flat>
+     */
+    public function getFlats(): Collection
+    {
+        return $this->flats;
+    }
+
+    public function addFlat(Flat $flat): self
+    {
+        if (!$this->flats->contains($flat)) {
+            $this->flats->add($flat);
+            $flat->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFlat(Flat $flat): self
+    {
+        if ($this->flats->removeElement($flat)) {
+            // set the owning side to null (unless already changed)
+            if ($flat->getOwner() === $this) {
+                $flat->setOwner(null);
+            }
+        }
 
         return $this;
     }

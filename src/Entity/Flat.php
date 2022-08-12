@@ -22,6 +22,9 @@ class Flat
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'flats')]
+    private ?Account $owner = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Flat
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Account
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Account $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }
