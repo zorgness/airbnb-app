@@ -1,6 +1,7 @@
 # config/packages/vich_uploader.yaml or app/config/config.yml
 vich_uploader:
     db_driver: orm
+    storage: flysystem
 
     metadata:
         type: attribute
@@ -8,7 +9,8 @@ vich_uploader:
     mappings:
         products:
             uri_prefix: /images/products
-            upload_destination: '%kernel.project_dir%/public/images/products'
+            upload_destination: default.storage
+            # upload_destination: '%kernel.project_dir%/public/images/products'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
         type:
             uri_prefix: /images/type
