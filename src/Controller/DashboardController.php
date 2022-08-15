@@ -38,10 +38,11 @@ class DashboardController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+          $modify = $flat->getId() !== null;
           $flat->setOwner($user);
           $entityManager->persist($flat);
           $entityManager->flush();
-          $this->addFlash("success", 'flat have been modified');
+          $this->addFlash("success", ($modify) ?  'flat have been modified' : 'flat have been added');
           return $this->redirectToRoute('dashboard');
         }
 
