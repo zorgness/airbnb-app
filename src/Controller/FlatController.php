@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Flat;
+use App\Entity\Booking;
+use App\Form\BookingType;
 use App\Repository\FlatRepository;
+use App\Repository\BookingRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,12 +25,26 @@ class FlatController extends AbstractController
     }
 
     #[Route('/flats/{id}', name: 'show_flat')]
-    public function show(Flat $flat): Response
+    public function show(Request $request, Flat $flat, BookingRepository $bookingRepository): Response
     {
 
+      $booking = new Booking();
+      $form = $this->createForm(BookingType::class, $booking);
+      $form->handleRequest($request);
+
+      if ($form->isSubmitted() && $form->isValid()) {
+
+          $user = $this->getUser();
+          $booking->setFlat($flat);
+          $booking->setUserAccount($user);
+          $bookingRepository->add($booking, true);
+
+          return $this->redirectToRoute('flats', [], Response::HTTP_SEE_OTHER);
+      }
         return $this->render('flat/show.html.twig', [
             'controller_name' => 'FlatController',
-            'flat' => $flat
+            'flat' => $flat,
+            'form' => $form->createView()
         ]);
     }
 
