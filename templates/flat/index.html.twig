@@ -4,12 +4,28 @@
 
 {% block body %}
 
+<style  type="text/css">
+  .card{
+  background: #fff;
+  box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+cursor: pointer;
+}
+
+.card:hover{
+   transform: scale(1.05);
+box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+opacity: 0.9;
+}
+</style>
+
 <h1>Flats list</h1>
 
 
 <div class="flats-container">
 
       {% for flat in flats %}
+           <a href="{{ path("show_flat", {'id': flat.id}) }}" class="text-decoration-none text-dark">
           <div class="card" style="width: 18rem;">
             <img src="{{ asset('images/products/' ~ flat.imageName)}}" class="card-img-top" alt="...">
             <div class="card-body">
@@ -20,6 +36,7 @@
 
             </div>
           </div>
+          </a>
       {% endfor %}
 
 
