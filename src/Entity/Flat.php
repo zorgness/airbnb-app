@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FlatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -36,6 +38,14 @@ class Flat
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\OneToMany(mappedBy: 'flat', targetEntity: ProductImage::class, orphanRemoval:true, cascade:['persist', 'remove'])]
+    private Collection $productImages;
+
+    public function __construct()
+    {
+        $this->productImages = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -114,5 +124,35 @@ class Flat
     public function getImageName(): ?string
     {
         return $this->imageName;
+    }
+
+    /**
+     * @return Collection<int, ProductImage>
+     */
+    public function getProductImages(): Collection
+    {
+        return $this->productImages;
+    }
+
+    public function addProductImage(ProductImage $productImage): self
+    {
+        if (!$this->productImages->contains($productImage)) {
+            $this->productImages->add($productImage);
+            $productImage->setFlat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductImage(ProductImage $productImage): self
+    {
+        if ($this->productImages->removeElement($productImage)) {
+            // set the owning side to null (unless already changed)
+            if ($productImage->getFlat() === $this) {
+                $productImage->setFlat(null);
+            }
+        }
+
+        return $this;
     }
 }

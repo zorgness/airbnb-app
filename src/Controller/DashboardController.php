@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Flat;
 use App\Form\FlatType;
+use App\Entity\ProductImage;
 use App\Repository\FlatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,6 +40,20 @@ class DashboardController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
           $modify = $flat->getId() !== null;
+          $images = $form->get('images')->getData();
+
+          foreach ($images as $image) {
+
+            $file = md5(uniqid()) . "." . $image->guessExtension();
+            $image->move(
+              $this->getParameter('images_directory'),
+              $file
+            );
+
+            $productImage = new ProductImage();
+            $productImage->setImageName($file);
+            $flat->addProductImage($productImage);
+          }
           $flat->setOwner($user);
           $entityManager->persist($flat);
           $entityManager->flush();
@@ -60,6 +75,12 @@ class DashboardController extends AbstractController
     {
       if($this->isCsrfTokenValid("SUP". $flat->getId(), $request->get('_token')))
       {
+        $images = $flat->getProductImages();
+        foreach ($images as $image) {
+          # code...
+          $name = $image->getImageName();
+          unlink($this->getParameter('images_directory'). '/' . $name);
+        }
         $entityManager->remove($flat);
         $entityManager->flush();
         $this->addFlash("success", 'flat have been deleted');
