@@ -31,7 +31,7 @@ class BookingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $bookingRepository->add($booking, true);
 
-            return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('booking/new.html.twig', [
@@ -73,6 +73,6 @@ class BookingController extends AbstractController
             $bookingRepository->remove($booking, true);
         }
 
-        return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
     }
 }
