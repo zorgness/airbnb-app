@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Airnb clone{% endblock %}
+
+{% block body %}
+
+<h1>{{ flat.address}}</h1>
+
+
+<div class="flats-container">
+
+
+          <div class="card" style="width: 18rem;">
+            <img src="{{ asset('images/products/' ~ flat.imageName)}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">{{ flat.description }}</p>
+              <p class="card-text">owner: {{ flat.owner.username }}</p>
+              <p class="card-text">price/day: {{ flat.pricePerDay }} $</p>
+
+            </div>
+          </div>
+
+
+
+</div>
+
+{% endblock %}
