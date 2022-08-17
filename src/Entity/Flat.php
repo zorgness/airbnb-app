@@ -54,9 +54,13 @@ class Flat
     #[ORM\Column]
     private ?int $bed = null;
 
+    #[ORM\OneToMany(mappedBy: 'flat', targetEntity: Booking::class)]
+    private Collection $bookings;
+
     public function __construct()
     {
         $this->productImages = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -212,6 +216,36 @@ class Flat
     public function setBed(int $bed): self
     {
         $this->bed = $bed;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setFlat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getFlat() === $this) {
+                $booking->setFlat(null);
+            }
+        }
 
         return $this;
     }
