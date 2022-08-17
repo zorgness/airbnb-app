@@ -87,4 +87,20 @@ class DashboardController extends AbstractController
         return $this->redirectToRoute('dashboard');
       }
     }
+
+    #[Route('/dashboard/flat/delete-image/{id}', name: 'image_destroy')]
+    public function deleteImageAction(ProductImage $image, Request $request, EntityManagerInterface $entityManager)
+    {
+        $flat = $image->getFlat();
+
+      if($this->isCsrfTokenValid("SUP". $image->getId(), $request->get('_token')))
+      {
+        $name = $image->getImageName();
+        unlink($this->getParameter('images_directory'). '/' . $name);
+        $entityManager->remove($image);
+        $entityManager->flush();
+        $this->addFlash("success", 'image have been deleted');
+        return $this->redirectToRoute('dashboard_flat_edit', array('id' => $flat->getId()));
+      }
+    }
 }
