@@ -15,8 +15,7 @@ class BookingType extends AbstractType
             ->add('numberPeople')
             ->add('startDate')
             ->add('endDate')
-            ->add('flat')
-            ->add('userAccount')
+
         ;
     }
 

@@ -13,9 +13,51 @@
   <h3 class="text-white">{{ app.user.username|title}}</h3>
 </div>
 
+<h3 class="m-5">my bookings</h3>
+<div class=" d-flex justify-content-center align-items-center">
+
+
+    {% for booking in app.user.bookings %}
+    <div class="bg-secondary">
+       <ul>
+          {% set price = date(booking.endDate).diff(date(booking.startDate)) %}
+          <li>{{ booking.flat.address }}</li>
+          <li>from: {{ booking.startDate|date("m/d/Y")  }}</li>
+          <li>to: {{ booking.endDate|date("m/d/Y")  }}</li>
+          <li>price: {{ price.days * booking.flat.pricePerDay }} $</li>
+        </ul>
+    </div>
+
+    {% endfor %}
+</div>
+
+<h3 class="m-5">my rents</h3>
+<div class=" d-flex justify-content-center align-items-center">
+
+
+    {% for flat in app.user.flats %}
+      {% for booking in flat.bookings %}
+    <div class="bg-secondary">
+       <ul>
+          {% set price = date(booking.endDate).diff(date(booking.startDate)) %}
+          <li>{{ booking.flat.address }}</li>
+          <li>from: {{ booking.startDate|date("m/d/Y")  }}</li>
+          <li>to: {{ booking.endDate|date("m/d/Y")  }}</li>
+          <li>price: {{ price.days * booking.flat.pricePerDay }} $</li>
+        </ul>
+    </div>
+
+    {% endfor %}
+    {% endfor %}
+</div>
 
 
 
+
+
+
+
+<h3 class="m-5">my flats</h3>
 <div class="flats-container">
 
       {% for flat in flats %}
