@@ -20,7 +20,6 @@ class FlatType extends AbstractType
             ->add('address')
             ->add('pricePerDay')
             ->add('description')
-            ->add('imageFile', FileType::class, ['required' => false])
             ->add('images', FileType::class,
              ['required' => false,
              'mapped' => false,
