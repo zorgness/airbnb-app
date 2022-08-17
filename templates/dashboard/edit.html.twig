@@ -17,6 +17,18 @@
 
 </div>
 
+<div>
+    {% if toUpdate %}
+      {% for image in flat.productImages %}
+        <div>
+           <img src="{{ asset('images/' ~ image.imageName) }}" class="card-img-top" style="width: 18rem;" />
+        </div>
+
+      {% endfor %}
+
+    {% endif %}
+</div>
+
 
 
 {% endblock %}

@@ -66,7 +66,7 @@ class DashboardController extends AbstractController
             'controller_name' => 'DashboardController',
             'flat' => $flat,
             'form' => $form->createView(),
-            'new' => $flat->getId() !== null
+            'toUpdate' => $flat->getId() !== null
         ]);
     }
 
