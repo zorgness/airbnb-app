@@ -29,4 +29,14 @@ class FlatController extends AbstractController
             'flat' => $flat
         ]);
     }
+
+    #[Route('/template', name: 'template_flat')]
+    public function template(): Response
+    {
+
+        return $this->render('flat/edit.html.twig', [
+            'controller_name' => 'FlatController',
+
+        ]);
+    }
 }

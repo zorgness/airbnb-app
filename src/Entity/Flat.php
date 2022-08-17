@@ -42,6 +42,18 @@ class Flat
     #[ORM\OneToMany(mappedBy: 'flat', targetEntity: ProductImage::class, orphanRemoval:true, cascade:['persist', 'remove'])]
     private Collection $productImages;
 
+    #[ORM\Column]
+    private ?int $people = null;
+
+    #[ORM\Column]
+    private ?int $bathroom = null;
+
+    #[ORM\Column]
+    private ?int $room = null;
+
+    #[ORM\Column]
+    private ?int $bed = null;
+
     public function __construct()
     {
         $this->productImages = new ArrayCollection();
@@ -152,6 +164,54 @@ class Flat
                 $productImage->setFlat(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPeople(): ?int
+    {
+        return $this->people;
+    }
+
+    public function setPeople(int $people): self
+    {
+        $this->people = $people;
+
+        return $this;
+    }
+
+    public function getBathroom(): ?int
+    {
+        return $this->bathroom;
+    }
+
+    public function setBathroom(int $bathroom): self
+    {
+        $this->bathroom = $bathroom;
+
+        return $this;
+    }
+
+    public function getRoom(): ?int
+    {
+        return $this->room;
+    }
+
+    public function setRoom(int $room): self
+    {
+        $this->room = $room;
+
+        return $this;
+    }
+
+    public function getBed(): ?int
+    {
+        return $this->bed;
+    }
+
+    public function setBed(int $bed): self
+    {
+        $this->bed = $bed;
 
         return $this;
     }
