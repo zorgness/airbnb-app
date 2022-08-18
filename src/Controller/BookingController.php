@@ -69,8 +69,34 @@ class BookingController extends AbstractController
     #[Route('/{id}', name: 'app_booking_delete', methods: ['POST'])]
     public function delete(Request $request, Booking $booking, BookingRepository $bookingRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$booking->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('accepted'.$booking->getId(), $request->request->get('_token'))) {
             $bookingRepository->remove($booking, true);
+        }
+
+        return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/accepted/{id}', name: 'app_booking_accepted', methods: ['POST'])]
+    public function accepted(Request $request, Booking $booking, BookingRepository $bookingRepository): Response
+    {
+        if ($this->isCsrfTokenValid('accepted'.$booking->getId(), $request->request->get('_token'))) {
+          if ($booking->isRejected() !== true) {
+              $booking->setAccepted(true);
+              $bookingRepository->add($booking, true);
+            }
+        }
+
+        return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/rejected/{id}', name: 'app_booking_rejected', methods: ['POST'])]
+    public function rejected(Request $request, Booking $booking, BookingRepository $bookingRepository): Response
+    {
+        if ($this->isCsrfTokenValid('rejected'.$booking->getId(), $request->request->get('_token'))) {
+          if ($booking->isAccepted() !== true) {
+              $booking->setRejected(true);
+              $bookingRepository->add($booking, true);
+          }
         }
 
         return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);

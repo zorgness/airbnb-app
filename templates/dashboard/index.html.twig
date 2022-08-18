@@ -18,17 +18,23 @@
 
 
     {% for booking in app.user.bookings %}
-    <div class="bg-secondary">
+    <div class="bg-warning">
        <ul>
           {% set price = date(booking.endDate).diff(date(booking.startDate)) %}
           <li>{{ booking.flat.address }}</li>
           <li>from: {{ booking.startDate|date("m/d/Y")  }}</li>
           <li>to: {{ booking.endDate|date("m/d/Y")  }}</li>
           <li>price: {{ price.days * booking.flat.pricePerDay }} $</li>
-          <form method="post" action="{{ path('app_booking_delete', {'id': booking.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-              <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ booking.id) }}">
-              <button class="btn btn-danger">Delete</button>
-          </form>
+
+          {% set status = booking.accepted == false and booking.rejected == false %}
+          {% if status %}
+              <form method="post" action="{{ path('app_booking_delete', {'id': booking.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                  <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ booking.id) }}">
+                  <button class="btn btn-danger">Delete</button>
+              </form>
+          {% else %}
+            <p>{{ booking.accepted ? 'Accepted' : 'Not Accepted' }}</p>
+          {% endif %}
 
         </ul>
     </div>
@@ -43,13 +49,28 @@
 
     {% for flat in app.user.flats %}
       {% for booking in flat.bookings %}
-    <div class="bg-secondary">
+    <div class="bg-info">
        <ul>
           {% set price = date(booking.endDate).diff(date(booking.startDate)) %}
           <li>{{ booking.flat.address }}</li>
           <li>from: {{ booking.startDate|date("m/d/Y")  }}</li>
           <li>to: {{ booking.endDate|date("m/d/Y")  }}</li>
           <li>price: {{ price.days * booking.flat.pricePerDay }} $</li>
+
+          {% set status = booking.accepted == false and booking.rejected == false %}
+          {% if status %}
+              <form method="post" action="{{ path('app_booking_accepted', {'id': booking.id}) }}" onsubmit="return confirm('Are you sure you want to accept this booking?');">
+                  <input type="hidden" name="_token" value="{{ csrf_token('accepted' ~ booking.id) }}">
+                  <button class="btn btn-info">Validate</button>
+              </form>
+
+              <form method="post" action="{{ path('app_booking_rejected', {'id': booking.id}) }}" onsubmit="return confirm('Are you sure you want to reject this booking?');">
+                  <input type="hidden" name="_token" value="{{ csrf_token('rejected' ~ booking.id) }}">
+                  <button class="btn btn-danger">Reject</button>
+              </form>
+          {% else %}
+            <p>{{ booking.accepted ? 'Validated' : 'Rejected' }}</p>
+          {% endif %}
         </ul>
     </div>
 

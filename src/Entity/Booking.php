@@ -29,10 +29,10 @@ class Booking
     #[ORM\ManyToOne(inversedBy: 'bookings')]
     private ?Account $userAccount = null;
 
-    #[ORM\Column]
+    #[ORM\Column (options: ['default' => false])]
     private ?bool $accepted = null;
 
-    #[ORM\Column]
+    #[ORM\Column (options: ['default' => false])]
     private ?bool $rejected = null;
 
     public function getId(): ?int
