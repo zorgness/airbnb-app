@@ -85,17 +85,16 @@
 
 
 <h3 class="m-5">my flats</h3>
-<div class="flats-container">
+<div class="d-flex justify-content-center align-items-center flex-wrap m-3 ">
 
       {% for flat in flats %}
-           <a href="{{ path("show_flat", {'id': flat.id}) }}" class="text-decoration-none text-dark">
-          <div class="card" style="width: 18rem;">
+           <a href="{{ path("show_flat", {'id': flat.id}) }}" class="text-decoration-none text-dark ">
+          <div class="card m-3" style="width: 18rem;">
             <img src="{{ asset('images/products/' ~ flat.productImages[0].imageName)}}" class="card-img-top" alt="...">
             <div class="card-body">
-              <p class="card-text">{{ flat.description }}</p>
               <p class="card-text">{{ flat.address }}</p>
-              <p class="card-text">owner: {{ flat.owner.username }}</p>
               <p class="card-text">price/day: {{ flat.pricePerDay }} $</p>
+
 
                <div class="d-flex justify-content-center">
 

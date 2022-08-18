@@ -5,12 +5,6 @@
 {% block body %}
 
 <style  type="text/css">
-  /* .card{
-  background: #fff;
-  box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
-    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
-cursor: pointer;
-} */
 
 .card:hover{
    transform: scale(1.05);
@@ -19,18 +13,16 @@ opacity: 0.9;
 }
 </style>
 
-<h1>Flats list</h1>
-
 
 <div class="flats-container">
 
       {% for flat in flats %}
            <a href="{{ path("show_flat", {'id': flat.id}) }}" class="text-decoration-none text-dark">
           <div class="card border border-white" style="width: 18rem;">
-            <img src="{{ asset('images/products/' ~ flat.productImages[0].imageName)}}" class="card-img-top" alt="...">
+            <img src="{{ asset('images/products/' ~ flat.productImages[0].imageName)}}" class="card-img-top rounded" alt="...">
             <div class="card-body">
-              <p class="card-text">{{ flat.description }}</p>
-              <p class="card-text">price/day: {{ flat.pricePerDay }} $</p>
+              <p class="card-text">{{ flat.description|u.truncate(45,'...')|capitalize }}</p>
+              <p class="card-text"><strong>{{ flat.pricePerDay }} $</strong> night</p>
 
             </div>
           </div>
