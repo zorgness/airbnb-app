@@ -48,9 +48,11 @@
             </div>
 
        <!-- This is to make the Form Contents appear on the Image -->
+      {% if app.user.id != flat.owner.id %}
       <div class="border border-primary rounded p-5">
           {{ include('booking/_form.html.twig') }}
       </div>
+      {% endif %}
 
       </div>
 
