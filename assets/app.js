@@ -21,5 +21,10 @@ require('bootstrap');
 // require('bootstrap/js/dist/popover');
 
 $(document).ready(function() {
-    $('[data-toggle="popover"]').popover();
+    // $('[data-toggle="popover"]').popover();
 })
+
+// var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'));
+// popoverTriggerList.map(function (popoverTriggerEl) {
+// return new bootstrap.Popover(popoverTriggerEl);
+// });

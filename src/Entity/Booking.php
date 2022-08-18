@@ -30,10 +30,10 @@ class Booking
     private ?Account $userAccount = null;
 
     #[ORM\Column (options: ['default' => false])]
-    private ?bool $accepted = null;
+    private ?bool $accepted;
 
     #[ORM\Column (options: ['default' => false])]
-    private ?bool $rejected = null;
+    private ?bool $rejected;
 
     public function getId(): ?int
     {
