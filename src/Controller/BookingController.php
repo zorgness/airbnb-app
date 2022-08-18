@@ -29,10 +29,7 @@ class BookingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $booking->setAccepted(false);
-            $booking->setRejected(false);
             $bookingRepository->add($booking, true);
-
             return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
         }
 
