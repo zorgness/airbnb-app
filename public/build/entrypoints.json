@@ -9,6 +9,11 @@
       "css": [
         "/build/app.css"
       ]
+    },
+    "datepicker": {
+      "js": [
+        "/build/runtime.js"
+      ]
     }
   }
 }
