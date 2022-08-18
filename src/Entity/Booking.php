@@ -29,6 +29,12 @@ class Booking
     #[ORM\ManyToOne(inversedBy: 'bookings')]
     private ?Account $userAccount = null;
 
+    #[ORM\Column (options: ['default' => false])]
+    private ?bool $accepted = null;
+
+    #[ORM\Column (options: ['default' => false])]
+    private ?bool $rejected = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +96,30 @@ class Booking
     public function setUserAccount(?Account $userAccount): self
     {
         $this->userAccount = $userAccount;
+
+        return $this;
+    }
+
+    public function isAccepted(): ?bool
+    {
+        return $this->accepted;
+    }
+
+    public function setAccepted(bool $accepted): self
+    {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    public function isRejected(): ?bool
+    {
+        return $this->rejected;
+    }
+
+    public function setRejected(bool $rejected): self
+    {
+        $this->rejected = $rejected;
 
         return $this;
     }
