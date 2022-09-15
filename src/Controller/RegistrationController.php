@@ -48,10 +48,12 @@ class RegistrationController extends AbstractController
 
          // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
         return $this->render('registration/login.html.twig', [
             'controller_name' => 'RegistrationController',
             'lastUsername' => $lastUsername,
-            'error' => $error
+            'error' => $error,
+
 
         ]);
 
