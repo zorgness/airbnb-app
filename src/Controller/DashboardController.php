@@ -11,6 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Aws\Credentials\CredentialProvider;
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DashboardController extends AbstractController
 {
@@ -52,10 +57,31 @@ class DashboardController extends AbstractController
           foreach ($images as $image) {
 
             $file = md5(uniqid()) . "." . $image->guessExtension();
-            $image->move(
-              $this->getParameter('images_directory'),
-              $file
-            );
+            // $image->move(
+            //   $this->getParameter('images_directory'),
+            //   $file
+            // );
+
+
+            $bucket = getenv('AWS_ACCESS_BUCKET');
+            $destination = $this->getParameter('images_directory');
+            $image->move( $destination, $file);
+
+            try {
+              $s3Client = new S3Client([
+                'region' => 'eu-west-3',
+                'version' => 'latest',
+                'credentials' => CredentialProvider::env()
+              ]);
+              $s3Client->putObject([
+                'Bucket' => $bucket,
+                'Key' => $file,
+                'SourceFile' =>  $destination,
+              ]);
+            } catch (AwsException $e) {
+              echo $e->getMessage() . "\n";
+              return false;
+            }
 
             $productImage = new ProductImage();
             $productImage->setImageName($file);

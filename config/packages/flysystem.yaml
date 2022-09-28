@@ -5,10 +5,10 @@ flysystem:
             adapter: 'local'
             options:
                 directory: '%kernel.project_dir%/public/images/products'
-        aws.storage:
-            adapter: 'aws'
-            options:
-                client: 'aws_client_service' # The service ID of the Aws\S3\S3Client instance
-                bucket: 'product'
-                prefix: 'optional/path/prefix'
-                streamReads: true
+        # aws.storage:
+        #     adapter: 'aws'
+        #     options:
+        #         client: 'aws_client_service' # The service ID of the Aws\S3\S3Client instance
+        #         bucket: 'product'
+        #         prefix: 'optional/path/prefix'
+        #         streamReads: true
