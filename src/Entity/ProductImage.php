@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use League\Flysystem\Filesystem;
 
 #[ORM\Entity(repositoryClass: ProductImageRepository::class)]
 class ProductImage
@@ -19,6 +20,7 @@ class ProductImage
     #[ORM\ManyToOne(inversedBy: 'productImages')]
     private ?Flat $flat = null;
 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -26,7 +28,8 @@ class ProductImage
 
     public function getImageName(): ?string
     {
-        return $this->imageName;
+
+      return  $this->imageName;
     }
 
     public function setImageName(string $imageName): self
