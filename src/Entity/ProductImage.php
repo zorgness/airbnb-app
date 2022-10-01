@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductImageRepository;
 use Doctrine\ORM\Mapping as ORM;
-use League\Flysystem\Filesystem;
+use App\Service\PublicPathService;
 
 #[ORM\Entity(repositoryClass: ProductImageRepository::class)]
 class ProductImage
@@ -50,4 +50,11 @@ class ProductImage
 
         return $this;
     }
+
+    public function getImagePath(): ?string
+    {
+
+        return PublicPathService::PUBLIC_PATH . $this->getImageName();
+    }
+
 }

@@ -4,17 +4,14 @@
 
 {% block body %}
 
-{# image not already updated for AWS S3 #}
-
 <div class="d-flex justify-content-between m-3 align-items-center">
-    <h1 class="">Dashboard</h1>
-    <h3>{{ ip }}</h3>
+    <h1 class="">Dashboard {{ app.user.username|title}}</h1>
     <a href="{{ path('dashboard_flat_new') }}" class="btn btn-outline-success m-3">Add a flat</a>
 </div>
 
 
-<div class="user-container m-3 p-2 rounded bg-info">
-  <h3 class="text-white">{{ app.user.username|title}}</h3>
+<div class="user-container m-3 p-2 rounded bg-secondary">
+  <h3 class="text-white"></h3>
 </div>
 
 <h3 class="m-5">My bookings</h3>
@@ -25,8 +22,7 @@
 
     {% set price = date(booking.endDate).diff(date(booking.startDate)) %}
     <div class="card-product">
-        {# <img src="{{ asset('images/products/' ~ booking.flat.productImages[0].imageName)}}" /> #}
-        <img src="{{ booking.flat.productImages[0].imageName }}" />
+        <img src="{{ booking.flat.productImages[0].getImagePath()}}" />
         <div class="card-product-infos">
           <h2>{{ booking.flat.address }}</h2>
           <p>from: {{ booking.startDate|date("m/d/Y")  }} to: {{ booking.endDate|date("m/d/Y")  }} </p>
@@ -54,7 +50,7 @@
       {% for booking in flat.bookings %}
         {% set price = date(booking.endDate).diff(date(booking.startDate)) %}
       <div class="card-product">
-        {# <img src="{{ asset('images/products/' ~ booking.flat.productImages[0].imageName)}}" /> #}
+        <img src="{{flat.productImages[0].getImagePath()}}" class="card-img-top" alt="...">
         <div class="card-product-infos">
           <h2>{{ booking.flat.address }}</h2>
           <p>from: {{ booking.startDate|date("m/d/Y")  }} to: {{ booking.endDate|date("m/d/Y")  }} </p>
@@ -94,9 +90,8 @@
       {% for flat in flats %}
            <a href="{{ path("show_flat", {'id': flat.id}) }}" class="text-decoration-none text-dark ">
           <div class="card m-3" style="width: 18rem;">
-            {# <img src="{{ asset('images/products/' ~ flat.productImages[0].imageName)}}" class="card-img-top" alt="..."> #}
+            <img src="{{flat.productImages[0].getImagePath()}}" class="card-img-top" alt="...">
             <div class="card-body">
-              <p>{{flat.productImages[0].imageName}}</p>
               <p class="card-text">{{ flat.address }}</p>
               <p class="card-text">price/day: {{ flat.pricePerDay }} $</p>
 
