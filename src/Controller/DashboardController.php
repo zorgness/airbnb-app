@@ -6,13 +6,15 @@ use App\Entity\Flat;
 use App\Form\FlatType;
 use App\Entity\ProductImage;
 use League\Flysystem\Filesystem;
+use League\Flysystem\Visibility;
 use App\Repository\FlatRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Flysystem\UnableToDeleteFile;
+use League\Flysystem\FilesystemException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use League\Flysystem\Visibility;
 
 
 
@@ -64,8 +66,7 @@ class DashboardController extends AbstractController
 
 
             $filesystem->write( $file,
-            file_get_contents($image->getPathName()),
-          ['visiblity' => Visibility::PUBLIC] );
+            file_get_contents($image->getPathName()));
 
 
             $productImage = new ProductImage();
@@ -97,12 +98,24 @@ class DashboardController extends AbstractController
         foreach ($images as $image) {
           # code...
           $name = $image->getImageName();
-          $filesystem->delete($name);
+          $exist = $filesystem->fileExists($name);
+          if ($exist === true) {
+            try {
+              $filesystem->delete($name);
+            } catch (\Exception $e) {
+
+
+            }
+
+          }
+
           // to delete localy
           // unlink($this->getParameter('images_directory'). '/' . $name);
         }
         $entityManager->remove($flat);
         $entityManager->flush();
+
+
         $this->addFlash("success", 'flat have been deleted');
         return $this->redirectToRoute('dashboard');
       }
@@ -117,7 +130,7 @@ class DashboardController extends AbstractController
       {
         $name = $image->getImageName();
         $filesystem->delete($name);
-        // to delete localy
+
         // unlink($this->getParameter('images_directory'). '/' . $name);
         $entityManager->remove($image);
         $entityManager->flush();
