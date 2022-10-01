@@ -25,7 +25,7 @@
       {% for image in flat.productImages %}
         <div class="d-flex">
             <div>
-              <img src="{{ asset('images/products/' ~ image.imageName) }}" class="card-img-top" style="width: 18rem;" />
+              <img src="{{ image.getImagePath() }}" class="card-img-top" style="width: 18rem;" />
             </div>
 
            <div class=" m-3">

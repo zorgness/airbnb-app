@@ -5,9 +5,10 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
         images_directory: '%kernel.project_dir%/public/images/products'
-        uploads_base_url: 'https://s3.%env(AWS_S3_REGION)%.amazonaws.com/%env(AWS_S3 BUCKET)%'
+        uploads_base_url: 'https://%env(AWS_S3_BUCKET)%s3.%env(AWS_S3_REGION)%.amazonaws.com/'
 
 services:
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
