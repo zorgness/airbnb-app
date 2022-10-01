@@ -1,5 +1,7 @@
 # airbnb-app 
 
-simple clone of airbnb (not finished yet) with Symfony V5
+Simple clone of airbnb (not finished yet) with Symfony V5
 
-use of docker-compose with image of Postgres
+Use of docker-compose with image of Postgres
+
+Use of AWS S3 for object storage (i will put description of process soon)
