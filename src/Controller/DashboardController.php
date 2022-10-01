@@ -64,9 +64,9 @@ class DashboardController extends AbstractController
             //   $file
             // );
 
-
             $filesystem->write( $file,
             file_get_contents($image->getPathName()));
+
 
 
             $productImage = new ProductImage();
@@ -100,12 +100,8 @@ class DashboardController extends AbstractController
           $name = $image->getImageName();
           $exist = $filesystem->fileExists($name);
           if ($exist === true) {
-            try {
+
               $filesystem->delete($name);
-            } catch (\Exception $e) {
-
-
-            }
 
           }
 
