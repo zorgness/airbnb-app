@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Account;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Flysystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class RegistrationController extends AbstractController
 {
     #[Route('/register',  name: 'register')]
-    public function new( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function new( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, Filesystem $filesystem): Response
     {
 
       $user = new Account();
@@ -28,6 +29,19 @@ class RegistrationController extends AbstractController
           $user,
           $user->getPassword()
       );
+        $image = $form->get('image')->getData();
+        if($image) {
+
+          $file = md5(uniqid()) . "." . $image->guessExtension();
+          $filesystem->write( $file,
+          file_get_contents($image->getPathName()));
+          $user->setImage($file);
+
+        } else {
+          $user->setImage('images.png');
+        }
+
+
         $user->setPassword($hashedPassword);
         $entityManager->persist($user);
         $entityManager->flush();

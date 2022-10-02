@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Service\PublicPathService;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 class Account implements UserInterface, PasswordAuthenticatedUserInterface
@@ -39,6 +40,9 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'userAccount', targetEntity: Booking::class)]
     private Collection $bookings;
+
+    #[ORM\Column(length: 255, nullable: true, options:["default" => 'images.png'])]
+    private ?string $image = null;
 
 
 
@@ -200,5 +204,22 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getImagePath(): ?string
+    {
+      return PublicPathService::PUBLIC_PATH . $this->getImage();
     }
 }
