@@ -17,14 +17,30 @@
           </li>
 
           {% if app.user %}
-          <li class="nav-item active">
-            <a class="nav-link" href="/dashboard ">Dashboard</a>
-          </li>
+          <li class="nav-item dropdown big">
+            <div class="user-avatar-container d-flex align-items-center "  id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div class="ml-2">
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;"><g fill="none" fill-rule="nonzero"><path d="m2 16h28"></path><path d="m2 24h28"></path><path d="m2 8h28"></path></g></svg>
+              </div>
+              <img class="avatar dropdown-toggle " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjblwVQ-GlXCaTJnkev2wwBkrWAZQzUehfQ&usqp=CAU" />
 
+              </div>
 
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ path('logout') }}">Logout</a>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/dashboard ">Dashboard</a>
+                <a class="dropdown-item" href="{{ path('logout') }}">Logout</a>
+              </div>
             </li>
+
+             <li class="nav-item dropdown small">
+               <img class="avatar dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjblwVQ-GlXCaTJnkev2wwBkrWAZQzUehfQ&usqp=CAU" />
+                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/dashboard ">Dashboard</a>
+                    <a class="dropdown-item" href="{{ path('logout') }}">Logout</a>
+                  </div>
+             </li>
+
+
             {% else %}
             <li class="nav-item active">
                 <a class="nav-link" href="{{ path('register') }}">Register</a>

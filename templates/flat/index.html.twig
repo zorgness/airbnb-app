@@ -36,9 +36,13 @@ opacity: 0.9;
       {% for flat in flats %}
            <a href="{{ path("show_flat", {'id': flat.id}) }}" class="text-decoration-none text-dark">
           <div class="card border border-light m-3" style="width: 18rem;">
-
-            <img src="{{  flat.productImages[0].getImagePath() }}" class="card-img-top rounded" alt="...">
+            <div class="embed-responsive embed-responsive-16by9">
+              <img src="{{  flat.productImages[0].getImagePath() }}" class="card-img-top rounded" alt="...">
+            </div>
             <div class="card-body">
+              {% set address = flat.address|split(',')  %}
+
+              <p class="card-text"><strong>{{ address[1]|title }}</strong></p>
               <p class="card-text">{{ flat.description|u.truncate(45,'...')|capitalize }}</p>
               <p class="card-text"><strong>{{ flat.pricePerDay }} $</strong> night</p>
 
