@@ -6,6 +6,7 @@ use App\Entity\Account;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationType extends AbstractType
@@ -17,6 +18,11 @@ class RegistrationType extends AbstractType
             ->add('password', PasswordType::class)
             ->add('verificationPassword', PasswordType::class)
             ->add('username')
+            ->add('image', FileType::class,
+             ['required' => false,
+             'mapped' => false,
+             'multiple' => false,
+             'label' => 'Profile Picture'])
         ;
     }
 
