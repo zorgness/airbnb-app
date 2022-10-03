@@ -1,35 +1,31 @@
 {{ form_start(form , {'attr': {'class': 'container mt-3 rounded'}}) }}
-      			<h1 style="font-size: 2em; font-weight: bold; margin-bottom: 15px;">Book unique home and experiences.</h1>
-      <div class="input-group-prepend" style=" font-size: small;">
-					<label>CHECK IN</label> &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
-					<label>CHECK OUT</label><br>
-			</div>
 
-      <div class="input-group" style=" font-size: small;">
-          {{ form_row(form.startDate, {'label': false })}}
-          {{ form_row(form.endDate, {'label': false })}}
+
+      <div class="border rounded d-flex flex-column  justify-content-center ">
+
+          <div class="input-group justify-content-center flex-wrap" style=" font-size: small;">
+              {{ form_row(form.startDate, {'label': 'CHECK IN' })}}
+              {{ form_row(form.endDate, {'label': 'CHECK OUT' })}}
+          </div>
+
+          <div class="input-group justify-content-center" style=" font-size: small;">
+              {{ form_row(form.numberPeople, {'label': 'GUESTS', 'attr': {'class': 'custom-select'}} )}}
+          </div>
+
+                {{ form_row(form.accepted, {'label': false , 'attr':{'class': 'd-none'}})}}
+                {{ form_row(form.rejected, {'label': false , 'attr':{'class': 'd-none'}})}}
+
+
+        {{ form_widget(form) }}
+        {% if app.user %}
+        <div class="input-group justify-content-center mb-3">
+          <button class="btn btn-primary btn-lg" style="background-color: #fc5c64 !important; border: 1px solid #fc5c64 !important; width: 240px">{{ button_label|default('Book') }}</button>
+        </div>
+        {% else %}
+        <div class="input-group justify-content-center mb-3">
+          <a href="{{ path('login') }}" class="btn btn-primary btn-lg" style=" background-color: #fc5c64 !important;  border: 1px solid #fc5c64 !important; width: 240px">Book</a>
+        </div>
+        {% endif %}
+    {{ form_end(form) }}
+
       </div>
-      <div class="input-group-prepend" style=" font-size: small;">
-          <label>GUESTS</label><br>
-      </div>
-      <div class="input-group" style=" font-size: small;">
-
-           {{ form_row(form.numberPeople, {'label': false, 'attr': {'class': 'custom-select'}} )}}
-      </div>
-
-
-
-
-      {{ form_row(form.accepted, {'label': false , 'attr':{'class': 'd-none'}})}}
-      {{ form_row(form.rejected, {'label': false , 'attr':{'class': 'd-none'}})}}
-
-
-    {{ form_widget(form) }}
-    {% if app.user %}
-    <div class="form-group">
-    <button class="btn btn-primary btn-lg" style="float: right;">{{ button_label|default('Book') }}</button>
-    </div>
-    {% else %}
-      <a href="{{ path('login') }}" class="btn btn-primary btn-lg" style="float: right;">Book</a>
-    {% endif %}
-{{ form_end(form) }}
