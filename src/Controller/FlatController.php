@@ -10,6 +10,7 @@ use App\Repository\BookingRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FlatController extends AbstractController
@@ -38,8 +39,9 @@ class FlatController extends AbstractController
           $booking->setFlat($flat);
           $booking->setUserAccount($user);
           $bookingRepository->add($booking, true);
-
-          return $this->redirectToRoute('flats', [], Response::HTTP_SEE_OTHER);
+          $owner = $flat->getOwner()->getUsername();
+          $this->addFlash("success", "Your request has been send $owner");
+          return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
       }
         return $this->render('flat/show.html.twig', [
             'controller_name' => 'FlatController',
@@ -57,4 +59,5 @@ class FlatController extends AbstractController
 
         ]);
     }
+
 }

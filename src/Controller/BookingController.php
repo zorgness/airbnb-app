@@ -21,23 +21,24 @@ class BookingController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_booking_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, BookingRepository $bookingRepository): Response
-    {
-        $booking = new Booking();
-        $form = $this->createForm(BookingType::class, $booking);
-        $form->handleRequest($request);
+    // #[Route('/new', name: 'app_booking_new', methods: ['GET', 'POST'])]
+    // public function new(Request $request, BookingRepository $bookingRepository): Response
+    // {
+    //     $booking = new Booking();
+    //     $form = $this->createForm(BookingType::class, $booking);
+    //     $form->handleRequest($request);
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $bookingRepository->add($booking, true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $bookingRepository->add($booking, true);
-            return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
-        }
+    //         return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
 
-        return $this->renderForm('booking/new.html.twig', [
-            'booking' => $booking,
-            'form' => $form,
-        ]);
-    }
+    //     }
+
+    //     return $this->renderForm('booking/new.html.twig', [
+    //         'booking' => $booking,
+    //         'form' => $form,
+    //     ]);
+    // }
 
     #[Route('/{id}', name: 'app_booking_show', methods: ['GET'])]
     public function show(Booking $booking): Response
@@ -57,6 +58,7 @@ class BookingController extends AbstractController
             $bookingRepository->add($booking, true);
 
             return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+
         }
 
         return $this->renderForm('booking/edit.html.twig', [

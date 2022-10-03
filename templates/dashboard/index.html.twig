@@ -4,28 +4,29 @@
 
 {% block body %}
 
-<div class="d-flex justify-content-between m-3 align-items-center">
+<div class="d-flex justify-content-between m-3 align-items-center border-bottom">
     <h1 class="">Dashboard {{ app.user.username|title}}</h1>
     <a href="{{ path('dashboard_flat_new') }}" class="btn btn-outline-success m-3">Add a flat</a>
 </div>
 
-
+{#
 <div class="user-container m-3 p-2 rounded bg-secondary">
   <h3 class="text-white"></h3>
-</div>
+</div> #}
 
 <h3 class="m-5">My bookings</h3>
-<div class=" d-flex justify-content-center align-items-center">
+<div class=" d-flex justify-content-between align-items-center flex-wrap m-3">
 
 
     {% for booking in app.user.bookings %}
 
     {% set price = date(booking.endDate).diff(date(booking.startDate)) %}
-    <div class="card-product">
+    <a href="{{ path("show_flat", {'id': booking.flat.id}) }}" class="text-decoration-none text-dark">
+    <div class="card-product mb-3">
         <img src="{{ booking.flat.productImages[0].getImagePath()}}" />
         <div class="card-product-infos">
           <h2>{{ booking.flat.address }}</h2>
-          <p>from: {{ booking.startDate|date("m/d/Y")  }} to: {{ booking.endDate|date("m/d/Y")  }} </p>
+          <p>from: {{ booking.startDate|date("d/m/Y")  }} to: {{ booking.endDate|date("d/m/Y")  }} </p>
           <p>price: <strong>{{ price.days * booking.flat.pricePerDay }} $</strong></p>
            {% set status = booking.accepted == false and booking.rejected == false %}
           {% if status %}
@@ -38,22 +39,24 @@
           {% endif %}
         </div>
     </div>
+    </a>
     {% endfor %}
 </div>
 
 
 <h3 class="m-5">My rents</h3>
-<div class=" d-flex justify-content-center align-items-center">
+<div class=" d-flex justify-content-between align-items-center flex-wrap m-3">
 
 
     {% for flat in app.user.flats %}
       {% for booking in flat.bookings %}
         {% set price = date(booking.endDate).diff(date(booking.startDate)) %}
-      <div class="card-product">
+      <a href="{{ path("show_flat", {'id': booking.flat.id}) }}" class="text-decoration-none text-dark">
+      <div class="card-product mb-3">
         <img src="{{flat.productImages[0].getImagePath()}}" class="card-img-top" alt="...">
         <div class="card-product-infos">
           <h2>{{ booking.flat.address }}</h2>
-          <p>from: {{ booking.startDate|date("m/d/Y")  }} to: {{ booking.endDate|date("m/d/Y")  }} </p>
+          <p>from: {{ booking.startDate|date("d/m/Y")  }} to: {{ booking.endDate|date("d/m/Y")  }} </p>
           <p>price: <strong>{{ price.days * booking.flat.pricePerDay }} $</strong></p>
           {% set status = booking.accepted == false and booking.rejected == false %}
           {% if status %}
@@ -73,6 +76,7 @@
           {% endif %}
         </div>
       </div>
+      </a>
 
     {% endfor %}
     {% endfor %}
