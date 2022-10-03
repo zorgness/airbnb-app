@@ -34,5 +34,5 @@ final class Version20220818113020 extends AbstractMigration
     //     $this->addSql('ALTER TABLE booking DROP CONSTRAINT FK_E00CEDDED3331C94');
     //     $this->addSql('ALTER TABLE booking DROP CONSTRAINT FK_E00CEDDE3C0C9956');
     //     $this->addSql('DROP TABLE booking');
-    // }
+    }
 }
