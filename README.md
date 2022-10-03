@@ -1,6 +1,6 @@
 # airbnb-app 
 
-## http://my-airbnbclone2.herokuapp.com/dashboard
+## http://my-airbnbclone2.herokuapp.com
 
 Simple clone of airbnb (not finished yet) with Symfony V5
 
