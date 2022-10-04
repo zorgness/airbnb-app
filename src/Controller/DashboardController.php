@@ -23,6 +23,7 @@ class DashboardController extends AbstractController
     public function index(FlatRepository $repository): Response
     {
         $user = $this->getUser();
+
         // $ip = isset($_SERVER['HTTP_CLIENT_IP'])
         // ? $_SERVER['HTTP_CLIENT_IP']
         // : (isset($_SERVER['HTTP_X_FORWARDED_FOR'])
@@ -39,12 +40,16 @@ class DashboardController extends AbstractController
 
     #[Route('/dashboard/flat/new', name: 'dashboard_flat_new')]
     #[Route('/dashboard/flat/{id}', name: 'dashboard_flat_edit') ]
-    public function new_and_edit(Flat $flat = null, FlatOption $flatOption = null, Request $request, EntityManagerInterface $entityManager, Filesystem $filesystem): Response
+    public function new_and_edit(Flat $flat = null, Request $request, EntityManagerInterface $entityManager, Filesystem $filesystem): Response
     {
         if(!$flat) {
           $flat = new Flat();
           $flatOption = new FlatOption();
+        } else {
+          $flatOption = $flat->getFlatOption();
         }
+
+
 
         $user = $this->getUser();
         $form = $this->createForm(FlatType::class,$flat);
@@ -60,6 +65,7 @@ class DashboardController extends AbstractController
           foreach ($images as $image) {
 
             $file = md5(uniqid()) . "." . $image->guessExtension();
+
             // to upload localy on '%kernel.project_dir%/public/images/products'
             // $image->move(
             //   $this->getParameter('images_directory'),
@@ -68,12 +74,10 @@ class DashboardController extends AbstractController
 
             $filesystem->write( $file,
             file_get_contents($image->getPathName()));
-
-
-
             $productImage = new ProductImage();
             $productImage->setImageName($file);
             $flat->addProductImage($productImage);
+
           }
           if($formOptions->isSubmitted() && $formOptions->isValid()){
             $modify ? null : $flatOption->setFlat($flat);
@@ -137,6 +141,7 @@ class DashboardController extends AbstractController
         $name = $image->getImageName();
         $filesystem->delete($name);
 
+        // to delete localy
         // unlink($this->getParameter('images_directory'). '/' . $name);
         $entityManager->remove($image);
         $entityManager->flush();
