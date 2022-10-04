@@ -43,13 +43,36 @@
 
 
 
+
+
           <div class="border-top border-bottom d-flex justify-content-between flex-wrap">
-            <div class=" p-5 " style="max-width:450;">
-              <p style="font-size: 20px;">{{flat.description|capitalize  }}</p>
+
+            <div class="d-flex flex-column justify-content-between ">
+
+              <div class=" p-5 " style="max-width:450;">
+                <p style="font-size: 20px;">{{flat.description|capitalize  }}</p>
+              </div>
+
+              <div class="">
+                  <h4 class="m-4">All options of this place</h4>
+                  <ul "list-group">
+                    {{ flat.flatOption.wifi ? "<li class='list-group-item mb-3'><img class='avatar' src='https://cdn-icons-png.flaticon.com/512/93/93158.png' /><span class='mx-3'>Wifi</span></li>": null }}
+                    {{ flat.flatOption.tv ? "<li class='list-group-item mb-3'><img class='avatar' src='https://png.pngtree.com/element_our/md/20180516/md_5afbfa01e121d.jpg' /><span class='mx-3'>TV HD</span></li>" : null }}
+                    {{ flat.flatOption.parking ? "<li class='list-group-item mb-3'><img class='avatar' src='https://www.freeiconspng.com/thumbs/parking-icon-png/parking-icon-png-32.png' /><span class='mx-3'>Free parking</span></li>" : null }}
+                    {{ flat.flatOption.workingPlace ? "<li class='list-group-item mb-3'><img class='avatar' src='https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/working-on-office-icon.png' /><span class='mx-3'>Working space</span></li>" : null}}
+                    {{ flat.flatOption.kitchen ? "<li class='list-group-item mb-3'><img class='avatar' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg-HHqk5fBVX3FsFKQA640nmC0oHy_U3FVFA&usqp=CAU' /><span class='mx-3'>Kitchen</span></li>" : null}}
+                    {{ flat.flatOption.animal ? "<li class='list-group-item mb-3'><img class='avatar' src='https://www.freeiconspng.com/thumbs/animal-icon-png/animal-paw-vector-icon-animals-icons-icons-download-0.png' /><span class='mx-3'>Animals allowed</span></li>" : null}}
+                    {{ flat.flatOption.aircon ? "<li class='list-group-item mb-3'><img class='avatar' src='https://i.pinimg.com/474x/98/82/32/988232a8dcfeebce37164e5420826119.jpg' /><span class='mx-3'>Aircon</span></li>" : null}}
+                  </ul>
+              </div>
+
             </div>
 
+
+
        <!-- This is to make the Form Contents appear on the Image -->
-      {% if (app.user.id != flat.owner.id) or (app.user == null )%}
+      {% if app.user == null %}
+      {% if app.user != flat.owner.id %}
       <div class="border border-dark rounded p-5">
         <h1 style="font-size: 2em; font-weight: bold; margin-bottom: 15px; text-align:center;">Book unique home and experiences.</h1>
           <div class="d-flex align-items-baseline">
@@ -58,6 +81,7 @@
           </div>
           {{ include('booking/_form.html.twig') }}
       </div>
+      {% endif %}
       {% endif %}
 
       </div>

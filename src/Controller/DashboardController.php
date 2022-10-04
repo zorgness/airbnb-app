@@ -3,14 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Flat;
+use App\Entity\FlatOption;
 use App\Form\FlatType;
 use App\Entity\ProductImage;
+use App\Form\FlatOptionType;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Visibility;
 use App\Repository\FlatRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use League\Flysystem\UnableToDeleteFile;
-use League\Flysystem\FilesystemException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,16 +39,19 @@ class DashboardController extends AbstractController
 
     #[Route('/dashboard/flat/new', name: 'dashboard_flat_new')]
     #[Route('/dashboard/flat/{id}', name: 'dashboard_flat_edit') ]
-    public function new_and_edit(Flat $flat = null, Request $request, EntityManagerInterface $entityManager, Filesystem $filesystem): Response
+    public function new_and_edit(Flat $flat = null, FlatOption $flatOption = null, Request $request, EntityManagerInterface $entityManager, Filesystem $filesystem): Response
     {
         if(!$flat) {
           $flat = new Flat();
+          $flatOption = new FlatOption();
         }
 
         $user = $this->getUser();
         $form = $this->createForm(FlatType::class,$flat);
+        $formOptions = $this->createForm(FlatOptionType::class,$flatOption);
 
         $form->handleRequest($request);
+        $formOptions->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
           $modify = $flat->getId() !== null;
@@ -73,6 +75,13 @@ class DashboardController extends AbstractController
             $productImage->setImageName($file);
             $flat->addProductImage($productImage);
           }
+          if($formOptions->isSubmitted() && $formOptions->isValid()){
+            $modify ? null : $flatOption->setFlat($flat);
+            $flat->setFlatOption($flatOption);
+            $entityManager->persist($flatOption);
+            $entityManager->flush();
+          }
+
           $flat->setOwner($user);
           $entityManager->persist($flat);
           $entityManager->flush();
@@ -85,6 +94,7 @@ class DashboardController extends AbstractController
             'controller_name' => 'DashboardController',
             'flat' => $flat,
             'form' => $form->createView(),
+            'formOptions' => $formOptions->createView(),
             'toUpdate' => $flat->getId() !== null
         ]);
     }
