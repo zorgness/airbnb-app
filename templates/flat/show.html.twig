@@ -71,17 +71,27 @@
 
 
        <!-- This is to make the Form Contents appear on the Image -->
-      {% if app.user == null %}
-      {% if app.user != flat.owner.id %}
-      <div class="border border-dark rounded p-5">
-        <h1 style="font-size: 2em; font-weight: bold; margin-bottom: 15px; text-align:center;">Book unique home and experiences.</h1>
-          <div class="d-flex align-items-baseline">
-            <h4 class="mx-2"><strong>{{ flat.pricePerDay  }} €</strong></h4>
-            <span><p>by night</p></span>
-          </div>
-          {{ include('booking/_form.html.twig') }}
-      </div>
-      {% endif %}
+       {% if app.user %}
+        {% if app.user.id != flat.owner.id %}
+            <div class="border border-dark rounded p-5">
+              <h1 style="font-size: 2em; font-weight: bold; margin-bottom: 15px; text-align:center;">Book unique home and experiences.</h1>
+                <div class="d-flex align-items-baseline">
+                  <h4 class="mx-2"><strong>{{ flat.pricePerDay  }} €</strong></h4>
+                  <span><p>by night</p></span>
+                </div>
+                {{ include('booking/_form.html.twig') }}
+            </div>
+            {% endif %}
+            {% else %}
+           <div class="border border-dark rounded p-5">
+              <h1 style="font-size: 2em; font-weight: bold; margin-bottom: 15px; text-align:center;">Book unique home and experiences.</h1>
+                <div class="d-flex align-items-baseline">
+                  <h4 class="mx-2"><strong>{{ flat.pricePerDay  }} €</strong></h4>
+                  <span><p>by night</p></span>
+                </div>
+                {{ include('booking/_form.html.twig') }}
+            </div>
+
       {% endif %}
 
       </div>
