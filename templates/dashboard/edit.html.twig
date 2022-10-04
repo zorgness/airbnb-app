@@ -14,9 +14,14 @@
       <div>{{form_row(form.bathroom)}}</div>
       <div>{{form_row(form.bed)}}</div>
 
+      {{form_start(formOptions)}}
+        {{form_widget(formOptions)}}
+
+
       {{form_widget(form)}}
       <input type="submit" class="btn btn-primary" value="Submit"/>
     {{form_end(form)}}
+    {{form_end(formOptions)}}
 
 </div>
 

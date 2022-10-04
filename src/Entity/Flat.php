@@ -57,6 +57,9 @@ class Flat
     #[ORM\OneToMany(mappedBy: 'flat', targetEntity: Booking::class)]
     private Collection $bookings;
 
+    #[ORM\OneToOne(mappedBy: 'flat', cascade: ['persist', 'remove'])]
+    private ?FlatOption $flatOption = null;
+
     public function __construct()
     {
         $this->productImages = new ArrayCollection();
@@ -246,6 +249,23 @@ class Flat
                 $booking->setFlat(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFlatOption(): ?FlatOption
+    {
+        return $this->flatOption;
+    }
+
+    public function setFlatOption(FlatOption $flatOption): self
+    {
+        // set the owning side of the relation if necessary
+        if ($flatOption->getFlat() !== $this) {
+            $flatOption->setFlat($this);
+        }
+
+        $this->flatOption = $flatOption;
 
         return $this;
     }
