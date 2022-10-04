@@ -6,7 +6,7 @@
 
 <div class="d-flex justify-content-between m-3 align-items-center border-bottom">
     <h1 class="">Dashboard {{ app.user.username|title}}</h1>
-    <a href="{{ path('dashboard_flat_new') }}" class="btn btn-outline-success m-3">Add a flat</a>
+    <a href="{{ path('dashboard_flat_new') }}" class="btn btn-primary m-3" style=" background-color: #fc5c64 !important;  border: 1px solid #fc5c64 !important;">Become a host</a>
 </div>
 
 {#
@@ -111,7 +111,7 @@
                         <input type="hidden" name="_method" value="SUP">
                         <input type="hidden" name="_token" value="{{csrf_token('SUP' ~ flat.id)}}">
                         <input type="submit" value="Delete" class="btn btn-outline-danger">
-                          </form>
+                    </form>
                   </div>
 
               </div>
