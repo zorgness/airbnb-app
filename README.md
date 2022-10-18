@@ -4,7 +4,7 @@
 
 ### Simple clone of airbnb (not finished yet) with Symfony V6
 
-* Database docker-compose with image of Postgres
+* Database Postgres Docker image
 
 * Object storage: AWS S3
 
