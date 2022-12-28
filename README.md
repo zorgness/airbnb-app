@@ -1,9 +1,5 @@
 # airbnb-app 
 
-## http://my-airbnbclone2.herokuapp.com
-
-## Suite à la fin du programme gratuit de heroku je cherche une solution pour hoster la base de données
-
 ### Simple clone of airbnb (not finished yet) with Symfony V6
 
 * Database Postgres Docker image
